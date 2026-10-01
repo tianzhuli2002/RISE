@@ -1,0 +1,11 @@
+mode: P
+parameter_names:
+- toy_mean
+hidden: 32
+signed_mixture: false
+sbi_loss_weight: 1.0
+freeze_encoder: false
+pretrained_checkpoint: /net/scratch/w00238tl/JointEventReconstruction_RISE/results/experiments/rise/development/reconstruction.ckpt
+pretrained_components:
+- visible
+- queries

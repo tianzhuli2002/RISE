@@ -26,6 +26,7 @@ jer = "joint_event_reconstruction.cli.jer:main"
 
 [project.optional-dependencies]
 lgatr = ["lgatr>=2,<3"]
+sbi = ["uproot>=5,<6", "awkward>=2,<3"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

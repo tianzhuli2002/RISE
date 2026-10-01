@@ -1,0 +1,11 @@
+mode: '0'
+parameter_names:
+- toy_mean
+hidden: 32
+signed_mixture: false
+sbi_loss_weight: 1.0
+freeze_encoder: false
+pretrained_checkpoint: null
+pretrained_components:
+- visible
+- queries
