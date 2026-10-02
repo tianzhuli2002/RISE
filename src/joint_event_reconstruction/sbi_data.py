@@ -12,6 +12,13 @@ from pathlib import Path
 import h5py
 import numpy as np
 
+WEIGHT_CONVENTIONS = {
+    "absolute",
+    "relative_to_nominal",
+    "shape_only",
+    "rate_bearing",
+}
+
 
 def _ids(values):
     a = np.asarray(values)
@@ -87,6 +94,30 @@ def write_sidecar(
     for key in ("weight_definition", "source_identity", "normalisation"):
         if key not in metadata:
             raise ValueError(f"Missing weight provenance: {key}")
+    convention = metadata.get("weight_convention")
+    if mode == "metadata_only":
+        if convention != "unresolved" and convention not in WEIGHT_CONVENTIONS:
+            raise ValueError(
+                "Metadata-only weights must declare weight_convention=unresolved "
+                "or an established convention"
+            )
+    else:
+        if convention not in WEIGHT_CONVENTIONS:
+            raise ValueError(
+                "Parameterized sidecars require an established weight_convention"
+            )
+        if not isinstance(metadata["weight_definition"], str) or not metadata[
+            "weight_definition"
+        ].strip():
+            raise ValueError("Parameterized sidecars require a nonempty weight_definition")
+        if (
+            not isinstance(metadata["normalisation"], str)
+            or not metadata["normalisation"].strip()
+            or metadata["normalisation"].strip().lower() in {"unknown", "unresolved"}
+        ):
+            raise ValueError(
+                "Parameterized sidecars require an explicit weight normalisation"
+            )
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".h5")
     os.close(fd)
@@ -181,6 +212,21 @@ class SBISidecar:
         for key in ("weight_definition", "source_identity", "normalisation"):
             if key not in self.metadata:
                 raise ValueError(f"{path}: missing weight provenance {key}")
+        convention = self.metadata.get("weight_convention")
+        if self.mode == "metadata_only":
+            if convention != "unresolved" and convention not in WEIGHT_CONVENTIONS:
+                raise ValueError(f"{path}: metadata-only weight convention is ambiguous")
+        elif convention not in WEIGHT_CONVENTIONS:
+            raise ValueError(f"{path}: parameter weight convention is absent or unresolved")
+        elif (
+            not isinstance(self.metadata["weight_definition"], str)
+            or not self.metadata["weight_definition"].strip()
+            or not isinstance(self.metadata["normalisation"], str)
+            or not self.metadata["normalisation"].strip()
+            or self.metadata["normalisation"].strip().lower()
+            in {"unknown", "unresolved"}
+        ):
+            raise ValueError(f"{path}: parameter weight definition/normalisation is ambiguous")
         for name, values in self.nuisance.items():
             if (
                 values.ndim not in (1, 2)
@@ -322,6 +368,7 @@ def root_to_sidecar(
             },
             "source_branches": [nominal_branch, *selected_branches],
             "normalisation": "unknown",
+            "weight_convention": "unresolved",
             "root_audit": report,
         }
         kwargs = {}
@@ -338,11 +385,16 @@ def root_to_sidecar(
                 raise ValueError("Incomplete externally established parameter metadata")
             raw_weights = read(parameter_metadata["weight_branch"])
             convention = parameter_metadata["weight_convention"]
+            if convention not in WEIGHT_CONVENTIONS:
+                raise ValueError(
+                    "Specify absolute, relative_to_nominal, shape_only, or rate_bearing POI weights"
+                )
             if convention == "relative_to_nominal":
                 raw_weights = raw_weights * nominal[:, None]
-            elif convention != "absolute":
-                raise ValueError("Specify absolute or relative_to_nominal POI weights")
             meta["source_branches"].append(parameter_metadata["weight_branch"])
+            meta["weight_definition"] = parameter_metadata["weight_definition"]
+            meta["normalisation"] = parameter_metadata["normalisation"]
+            meta["weight_convention"] = convention
             kwargs = {
                 "parameter_names": parameter_metadata["parameter_names"],
                 "parameter_grid": parameter_metadata["grid"],
@@ -380,6 +432,9 @@ class ReweightedRatioBatch:
         if not 0 <= self.reference_point < len(sidecar.grid):
             raise ValueError("Reference point outside grid")
         rows = sidecar.positions(train_event_id)
+        self.population_size = len(rows)
+        if self.population_size == 0:
+            raise ValueError("SBI training population is empty")
         weights = sidecar.weights[rows]
         positive = np.maximum(weights, 0).sum(0)
         negative = -np.minimum(weights, 0).sum(0)
@@ -408,6 +463,10 @@ class ReweightedRatioBatch:
         weights = self.sidecar.weights[
             rows, np.where(membership == 1, points, self.reference_point)
         ]
+        # Loss denominators are population totals per uniformly sampled source
+        # event, not totals over the full population. This preserves the exact
+        # normalized risk while keeping its scale independent of N.
+        loss_masses = self.masses[points] / self.population_size
         dtype = batch["tokens"].dtype
         device = batch["tokens"].device
 
@@ -423,7 +482,7 @@ class ReweightedRatioBatch:
             absolute_weight=tensor(np.abs(weights)),
             weight_sign=tensor(np.sign(weights)),
             nominal_weight=tensor(self.sidecar.nominal[rows]),
-            component_masses=tensor(self.masses[points]),
-            class_normalisation=tensor(self.masses[points][:, [0, 2]]),
+            component_masses=tensor(loss_masses),
+            class_normalisation=tensor(loss_masses[:, [0, 2]]),
         )
         return result

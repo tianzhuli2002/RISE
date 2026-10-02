@@ -8,6 +8,9 @@ import h5py
 import lightning as L
 import numpy as np
 import torch
+from omegaconf import OmegaConf
+from torch.utils.data import DataLoader
+
 from joint_event_reconstruction.cli.run import build_data, load_visible_config
 from joint_event_reconstruction.configuration import load_experiment
 from joint_event_reconstruction.rise import (
@@ -24,9 +27,6 @@ from joint_event_reconstruction.sbi_data import (
     write_sidecar,
 )
 from joint_event_reconstruction.training.joint import JointEventModule
-from omegaconf import OmegaConf
-from torch.utils.data import DataLoader
-
 from scripts.data.build_topology_query_synthetic import build
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,6 +73,7 @@ def fixture():
         "weight_definition": "synthetic toy only",
         "source_identity": "synthetic seed 452",
         "normalisation": "unit toy reference",
+        "weight_convention": "shape_only",
     }
     grid = np.array([[0.0], [1.0]])
     weights = np.stack(
@@ -173,7 +174,7 @@ def toy():
             signed_head(x, theta),
             membership,
             weight,
-            torch.tensor([[64.0, 12.8, 64.0, 12.8]]).expand(128, -1),
+            torch.tensor([[0.25, 0.05, 0.25, 0.05]]).expand(128, -1),
         )
         assert torch.isfinite(loss)
         signed_optim.zero_grad()

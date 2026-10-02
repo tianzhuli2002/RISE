@@ -58,6 +58,9 @@ def unsigned_loss(logit, membership, signed_weight, normalisation=None):
             or (normalisation <= 0).any()
         ):
             raise ValueError("Invalid fixed class normalisations")
+        # `normalisation` is the complete-population total divided by the
+        # number of uniformly sampled training EVENT_IDs. This keeps the
+        # minibatch risk on an O(1) scale as the population grows.
         mass = normalisation.gather(1, (1 - membership.long())[:, None])[:, 0]
         return (
             F.binary_cross_entropy_with_logits(
@@ -108,9 +111,10 @@ def signed_loss(logits, membership, signed_weight, component_masses):
     allowed = component_masses > 0
     if (~allowed.any(-1)).any():
         raise ValueError("Empty signed mixture")
-    # Masses are computed on the complete TRAIN population for each theta,
-    # never estimated from a minibatch. Uniform event draws with uniform theta
-    # use |w|/mass, giving equal component priors in expectation.
+    # Component masses are complete TRAIN totals divided by the number of
+    # uniformly sampled training EVENT_IDs, never minibatch estimates. This
+    # makes |w|/mass have unit expectation within each component and gives all
+    # observed components equal classifier priors without an N-dependent loss.
     safe_mass = torch.where(mass > 0, mass, torch.ones_like(mass))
     supported = signed_weight != 0
     if not supported.any():

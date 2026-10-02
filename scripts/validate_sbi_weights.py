@@ -5,10 +5,11 @@ from pathlib import Path
 
 import numpy as np
 import uproot
+
 from joint_event_reconstruction.sbi_data import SBISidecar, root_to_sidecar
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "results/experiments/rise/development"
+OUT = ROOT / "results/experiments/rise/preproduction-v1"
 
 
 def main():
