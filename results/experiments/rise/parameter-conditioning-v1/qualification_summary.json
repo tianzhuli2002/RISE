@@ -1,0 +1,261 @@
+{
+  "starting_commit": "44264aee110ed2f3a49103ac6e119bf7dc56898b",
+  "RISE_1_OVER_N_BUG_FIXED": "YES",
+  "RISE_SIGNED_ALGEBRA_VALID": "YES",
+  "verdict": "RISE_R0_BLOCKED",
+  "failure_interpretation": "Explicit interactions improve the parameterized representation substantially, but remaining optimization/parameterized-objective error is unresolved; the head is not adopted as the default.",
+  "R0_comparison": {
+    "existing": {
+      "4000": {
+        "parameter_count": 8769,
+        "wall_seconds_including_diagnostics": 7.761291400063783,
+        "training_theta_mean_log_ratio_RMSE": 0.23938710938275465,
+        "heldout_theta_RMSE": [
+          0.1503698560793726,
+          0.14809274352189197,
+          0.3654487645050639
+        ],
+        "heldout_theta_bias": [
+          -0.031189917180963585,
+          -0.07261110167004095,
+          0.0683322463900587
+        ],
+        "heldout_theta_E_p0_rhat": [
+          0.9865252851747525,
+          0.965381676300969,
+          0.9867899494212794
+        ],
+        "normalization_range": [
+          0.6389010697112409,
+          1.047002826643725
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 42.394991439290465,
+          "profile_a_rmse": 27.913609824033617,
+          "profile_b_rmse": 8.161004913089977,
+          "hessian_relative_error": 0.20155264996732325,
+          "best_fit_match_fraction": 0.0,
+          "mean_absolute_best_fit_offset": [
+            0.08333333333333331,
+            0.05
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          4.3851213911531906,
+          5.481289216032877
+        ],
+        "qualification_pass": false
+      },
+      "8000": {
+        "parameter_count": 8769,
+        "wall_seconds_including_diagnostics": 14.756164402002469,
+        "training_theta_mean_log_ratio_RMSE": 0.14144484406386476,
+        "heldout_theta_RMSE": [
+          0.1694384732979552,
+          0.13432323919899544,
+          0.18303986490151333
+        ],
+        "heldout_theta_bias": [
+          -0.008067210666025162,
+          -0.07731514573415979,
+          0.12814236823605596
+        ],
+        "heldout_theta_E_p0_rhat": [
+          1.040008398016301,
+          0.9499480648898149,
+          1.1220312383137374
+        ],
+        "normalization_range": [
+          0.8645788691574462,
+          1.1487826607261418
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 21.411885475623627,
+          "profile_a_rmse": 17.40567881975559,
+          "profile_b_rmse": 13.252558326018143,
+          "hessian_relative_error": 0.10071359068370075,
+          "best_fit_match_fraction": 0.125,
+          "mean_absolute_best_fit_offset": [
+            0.05833333333333332,
+            0.016666666666666663
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          1.1867245698220021,
+          2.2016773485575656
+        ],
+        "qualification_pass": false
+      },
+      "16000": {
+        "parameter_count": 8769,
+        "wall_seconds_including_diagnostics": 27.721610425040126,
+        "training_theta_mean_log_ratio_RMSE": 0.13488008724407108,
+        "heldout_theta_RMSE": [
+          0.1281499278943449,
+          0.05948790913791974,
+          0.21436442863678157
+        ],
+        "heldout_theta_bias": [
+          -0.08440534708001349,
+          -0.005633422451564936,
+          -0.1040160756260507
+        ],
+        "heldout_theta_E_p0_rhat": [
+          0.94060189759179,
+          0.995821321366102,
+          0.8492326120314482
+        ],
+        "normalization_range": [
+          0.848589228521671,
+          1.0569960571429433
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 24.555198900718864,
+          "profile_a_rmse": 11.92727747745885,
+          "profile_b_rmse": 17.38328887467088,
+          "hessian_relative_error": 0.0988756884717127,
+          "best_fit_match_fraction": 0.0,
+          "mean_absolute_best_fit_offset": [
+            0.06666666666666665,
+            0.10833333333333334
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          2.794314142871997,
+          3.401115603046677
+        ],
+        "qualification_pass": false
+      }
+    },
+    "bilinear": {
+      "4000": {
+        "parameter_count": 8245,
+        "wall_seconds_including_diagnostics": 12.849506647093222,
+        "training_theta_mean_log_ratio_RMSE": 0.13461001191378003,
+        "heldout_theta_RMSE": [
+          0.05413934806191177,
+          0.05182822271176118,
+          0.287808350104178
+        ],
+        "heldout_theta_bias": [
+          -0.008245875976169584,
+          -0.022846468462226183,
+          -0.07524466444536046
+        ],
+        "heldout_theta_E_p0_rhat": [
+          0.989727833035237,
+          0.9729515368571569,
+          0.8738844572255496
+        ],
+        "normalization_range": [
+          0.853931552461645,
+          1.0187705871380386
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 12.79977401846163,
+          "profile_a_rmse": 6.410489617265233,
+          "profile_b_rmse": 4.437702929063691,
+          "hessian_relative_error": 0.04815789399261999,
+          "best_fit_match_fraction": 0.375,
+          "mean_absolute_best_fit_offset": [
+            0.0,
+            0.04166666666666667
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          0.6753278664761088,
+          1.0411110665105714
+        ],
+        "qualification_pass": false
+      },
+      "8000": {
+        "parameter_count": 8245,
+        "wall_seconds_including_diagnostics": 25.612069135997444,
+        "training_theta_mean_log_ratio_RMSE": 0.08169339027519283,
+        "heldout_theta_RMSE": [
+          0.04107067192955384,
+          0.03409250400631879,
+          0.09821845550320306
+        ],
+        "heldout_theta_bias": [
+          0.01806219538692685,
+          -0.012259005226821221,
+          0.07318369874731083
+        ],
+        "heldout_theta_E_p0_rhat": [
+          1.018899307887385,
+          0.9863746875797195,
+          1.0746332366390738
+        ],
+        "normalization_range": [
+          0.8945646835314671,
+          1.0759405432171694
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 10.671541803290198,
+          "profile_a_rmse": 6.189986689525134,
+          "profile_b_rmse": 5.501271024023923,
+          "hessian_relative_error": 0.0605683955489903,
+          "best_fit_match_fraction": 0.125,
+          "mean_absolute_best_fit_offset": [
+            0.05833333333333332,
+            0.016666666666666663
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          0.9547200416603238,
+          1.3694397308523638
+        ],
+        "qualification_pass": false
+      },
+      "16000": {
+        "parameter_count": 8245,
+        "wall_seconds_including_diagnostics": 47.81759937107563,
+        "training_theta_mean_log_ratio_RMSE": 0.07658055603869676,
+        "heldout_theta_RMSE": [
+          0.033928009754812166,
+          0.02691240543857073,
+          0.09010512866823532
+        ],
+        "heldout_theta_bias": [
+          -0.006566504792897132,
+          0.010432677352174602,
+          0.002158315154999234
+        ],
+        "heldout_theta_E_p0_rhat": [
+          0.9868378452487195,
+          1.0059203221962467,
+          0.9796168553734202
+        ],
+        "normalization_range": [
+          0.9326024202004409,
+          1.1246628532607417
+        ],
+        "likelihood": {
+          "centered_surface_rmse": 8.814380742465252,
+          "profile_a_rmse": 2.0019365337871022,
+          "profile_b_rmse": 5.451908484598929,
+          "hessian_relative_error": 0.034955617969175,
+          "best_fit_match_fraction": 0.625,
+          "mean_absolute_best_fit_offset": [
+            0.0,
+            0.024999999999999994
+          ]
+        },
+        "confidence_region_RMSE_range": [
+          0.5382779773689459,
+          0.7933168365284154
+        ],
+        "qualification_pass": false
+      }
+    }
+  },
+  "R1_executed": false,
+  "R1_reason": "Neither R0 head passes the predeclared event-level and normalization qualification.",
+  "R1_exact_definition": "configs/experiments/rise_parameter_conditioning/r1.json",
+  "RISE_physics_readiness": "RISE_NOT_READY_FOR_DETECTOR_LEVEL_PHYSICS",
+  "next_action": "Run one exact Gaussian bilinear/quadratic-basis optimization control through the unchanged parameterized unsigned objective to isolate the remaining error.",
+  "new_architectures_tested": 1,
+  "detector_level_jobs": 0,
+  "real_2HDM_training": false
+}

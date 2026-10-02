@@ -1,0 +1,26 @@
+{
+  "toy": "R0: Normal((a,b,a+b), I3)",
+  "seed": 20261002,
+  "training_sidecar": "results/experiments/rise/preproduction-v1/analytic-run2/reweighted_reference.h5",
+  "training_reference_events": 48000,
+  "reference_theta": [0.0, 0.0],
+  "training_axis": [-0.8, 0.0, 0.8],
+  "heldout_theta": [[0.35, -0.4], [-0.3, 0.45], [1.0, -0.5]],
+  "heads": ["RatioHead", "ReferenceAnchoredBilinearRatioHead"],
+  "hidden": 64,
+  "batch_size": 512,
+  "optimizer": "Adam",
+  "learning_rate": 0.002,
+  "checkpoints": [4000, 8000, 16000],
+  "evaluation_reference_events": 24000,
+  "pseudo_datasets": 8,
+  "pseudo_dataset_events": 200,
+  "likelihood_axis_points": 31,
+  "qualification": {
+    "normalization": "each nonreference theta within 3 combined independent-evaluation and training-reference MC standard errors of unity",
+    "event_ratio": "each nonreference theta RMSE <= 3 times importance-sampling mean/intercept statistical uncertainty, recorded per point",
+    "likelihood_location": "all offsets within one exact local statistical sigma (Mahalanobis distance <=1), including grid discretization",
+    "likelihood_shape": "each centered-surface RMSE within the exact DeltaNLL<=3 confidence region <=1 log-likelihood unit",
+    "scope": "analytic architecture qualification only; full-grid profile/curvature errors also reported without post-hoc threshold changes"
+  }
+}

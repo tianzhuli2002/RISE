@@ -1,0 +1,496 @@
+{
+  "ratio_points": [
+    {
+      "theta": [
+        -0.8,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.020144197432333,
+      "log_ratio_RMSE": 0.16957186543185346,
+      "correlation": 0.999561338142867,
+      "E_p0_rhat": 1.1246628532607417,
+      "evaluation_MC_SE": 0.04420065298857538,
+      "training_log_normalization_MC_SE": 0.023854548168895883,
+      "combined_normalization_SE": 0.05022685728729832,
+      "event_ratio_MC_allowance_3sigma": 0.21253864879063405,
+      "normalization_pass": true,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        -0.8,
+        0.0
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.01192443572064064,
+      "log_ratio_RMSE": 0.0895013326187865,
+      "correlation": 0.9992374312156643,
+      "E_p0_rhat": 1.043571066562442,
+      "evaluation_MC_SE": 0.011624071872539197,
+      "training_log_normalization_MC_SE": 0.007591491882814464,
+      "combined_normalization_SE": 0.013883436026603602,
+      "event_ratio_MC_allowance_3sigma": 0.06962790315401696,
+      "normalization_pass": false,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        -0.8,
+        0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.007708060668312598,
+      "log_ratio_RMSE": 0.06781799120864146,
+      "correlation": 0.9996704264140355,
+      "E_p0_rhat": 0.9662086346031239,
+      "evaluation_MC_SE": 0.009251344800714406,
+      "training_log_normalization_MC_SE": 0.007259320008447014,
+      "combined_normalization_SE": 0.011759468848836014,
+      "event_ratio_MC_allowance_3sigma": 0.06354715069812278,
+      "normalization_pass": true,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.0,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": -0.0468467923512918,
+      "log_ratio_RMSE": 0.07653190728112959,
+      "correlation": 0.9992125815897155,
+      "E_p0_rhat": 0.9326024202004409,
+      "evaluation_MC_SE": 0.009755658040598442,
+      "training_log_normalization_MC_SE": 0.007301202299928815,
+      "combined_normalization_SE": 0.01218525415531325,
+      "event_ratio_MC_allowance_3sigma": 0.06471854301497001,
+      "normalization_pass": false,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.0,
+        0.0
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.0,
+      "log_ratio_RMSE": 0.0,
+      "correlation": null,
+      "E_p0_rhat": 1.0,
+      "evaluation_MC_SE": 0.0,
+      "training_log_normalization_MC_SE": 0.0,
+      "combined_normalization_SE": 0.0,
+      "event_ratio_MC_allowance_3sigma": 0.023701889183798633,
+      "normalization_pass": true,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": true
+    },
+    {
+      "theta": [
+        0.0,
+        0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.02495325544005357,
+      "log_ratio_RMSE": 0.04341402604217666,
+      "correlation": 0.9998402853738302,
+      "E_p0_rhat": 1.0370020415606962,
+      "evaluation_MC_SE": 0.010858036795782056,
+      "training_log_normalization_MC_SE": 0.007268817807441235,
+      "combined_normalization_SE": 0.01306647142025466,
+      "event_ratio_MC_allowance_3sigma": 0.06411083783215796,
+      "normalization_pass": true,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.8,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": -0.027305971094639735,
+      "log_ratio_RMSE": 0.08211803741146773,
+      "correlation": 0.9993309245209733,
+      "E_p0_rhat": 0.9450009046296963,
+      "evaluation_MC_SE": 0.00980338521741247,
+      "training_log_normalization_MC_SE": 0.0072083977820968075,
+      "combined_normalization_SE": 0.01216829323717667,
+      "event_ratio_MC_allowance_3sigma": 0.06305042886661608,
+      "normalization_pass": false,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.8,
+        0.0
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.03195935277094382,
+      "log_ratio_RMSE": 0.05438385725288584,
+      "correlation": 0.9995360721154838,
+      "E_p0_rhat": 1.0562392859631426,
+      "evaluation_MC_SE": 0.011281968602695426,
+      "training_log_normalization_MC_SE": 0.007153282833632874,
+      "combined_normalization_SE": 0.013358602877926723,
+      "event_ratio_MC_allowance_3sigma": 0.061975868772978414,
+      "normalization_pass": false,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.8,
+        0.8
+      ],
+      "parameter_set": "training",
+      "log_ratio_bias": 0.0595270260288181,
+      "log_ratio_RMSE": 0.10588598710132964,
+      "correlation": 0.9997114076537454,
+      "E_p0_rhat": 1.0868499514572285,
+      "evaluation_MC_SE": 0.0339751216777545,
+      "training_log_normalization_MC_SE": 0.029762230691380866,
+      "combined_normalization_SE": 0.04516745807265666,
+      "event_ratio_MC_allowance_3sigma": 0.33764961830702167,
+      "normalization_pass": true,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        0.35,
+        -0.4
+      ],
+      "parameter_set": "heldout",
+      "log_ratio_bias": -0.006566504792897132,
+      "log_ratio_RMSE": 0.033928009754812166,
+      "correlation": 0.998677492905565,
+      "E_p0_rhat": 0.9868378452487195,
+      "evaluation_MC_SE": 0.0034871442803704974,
+      "training_log_normalization_MC_SE": 0.002611898742121603,
+      "combined_normalization_SE": 0.00435685554858284,
+      "event_ratio_MC_allowance_3sigma": 0.030202231199464608,
+      "normalization_pass": false,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        -0.3,
+        0.45
+      ],
+      "parameter_set": "heldout",
+      "log_ratio_bias": 0.010432677352174602,
+      "log_ratio_RMSE": 0.02691240543857073,
+      "correlation": 0.9996874498550916,
+      "E_p0_rhat": 1.0059203221962467,
+      "evaluation_MC_SE": 0.00378597534834052,
+      "training_log_normalization_MC_SE": 0.0027823557265886163,
+      "combined_normalization_SE": 0.004698415980681424,
+      "event_ratio_MC_allowance_3sigma": 0.03114558945004434,
+      "normalization_pass": true,
+      "event_ratio_pass": true,
+      "reference_point_not_used_as_statistical_gate": false
+    },
+    {
+      "theta": [
+        1.0,
+        -0.5
+      ],
+      "parameter_set": "heldout",
+      "log_ratio_bias": 0.002158315154999234,
+      "log_ratio_RMSE": 0.09010512866823532,
+      "correlation": 0.9989426037993092,
+      "E_p0_rhat": 0.9796168553734202,
+      "evaluation_MC_SE": 0.010704285957542874,
+      "training_log_normalization_MC_SE": 0.008312107451181926,
+      "combined_normalization_SE": 0.013552596361614391,
+      "event_ratio_MC_allowance_3sigma": 0.07229844456188983,
+      "normalization_pass": true,
+      "event_ratio_pass": false,
+      "reference_point_not_used_as_statistical_gate": false
+    }
+  ],
+  "likelihood": {
+    "datasets": [
+      {
+        "experiment": 0,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.2666666666666667
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.2666666666666667
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.0
+        ],
+        "centered_surface_rmse": 9.06799770185622,
+        "profile_a_rmse": 1.6338988957012777,
+        "profile_b_rmse": 4.0150888708985875,
+        "hessian_relative_error": 0.02884669746489096,
+        "confidence_region_surface_RMSE": 0.5382779773689459,
+        "continuous_exact_best_fit": [
+          0.3379329673827493,
+          -0.259901629219997
+        ],
+        "continuous_learned_best_fit": [
+          0.3503539818819991,
+          -0.2460393325076839
+        ],
+        "best_fit_statistical_distance": 0.455468400566856,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 1,
+        "exact_best_fit_theta": [
+          0.2666666666666666,
+          -0.2666666666666667
+        ],
+        "learned_best_fit_theta": [
+          0.2666666666666666,
+          -0.2666666666666667
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.0
+        ],
+        "centered_surface_rmse": 8.267866564245674,
+        "profile_a_rmse": 1.950801877668765,
+        "profile_b_rmse": 5.256596967237907,
+        "hessian_relative_error": 0.03168682919987883,
+        "confidence_region_surface_RMSE": 0.5861909711286633,
+        "continuous_exact_best_fit": [
+          0.26768052123285613,
+          -0.2989534985539177
+        ],
+        "continuous_learned_best_fit": [
+          0.2726543307819665,
+          -0.28045083291328254
+        ],
+        "best_fit_statistical_distance": 0.4285399175280395,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 2,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.4666666666666667
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.4
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.06666666666666665
+        ],
+        "centered_surface_rmse": 9.141965934480766,
+        "profile_a_rmse": 2.7885696283366146,
+        "profile_b_rmse": 6.997668136008386,
+        "hessian_relative_error": 0.04435419214696331,
+        "confidence_region_surface_RMSE": 0.7475134317362567,
+        "continuous_exact_best_fit": [
+          0.34154118463382904,
+          -0.454377830964796
+        ],
+        "continuous_learned_best_fit": [
+          0.3409813606200629,
+          -0.422721695518382
+        ],
+        "best_fit_statistical_distance": 0.6275993784325037,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 3,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.4
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.33333333333333337
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.06666666666666665
+        ],
+        "centered_surface_rmse": 9.029601394310335,
+        "profile_a_rmse": 1.982327763388782,
+        "profile_b_rmse": 5.60246946686915,
+        "hessian_relative_error": 0.03624281958034046,
+        "confidence_region_surface_RMSE": 0.656045371439595,
+        "continuous_exact_best_fit": [
+          0.33369441247633835,
+          -0.3730953290001363
+        ],
+        "continuous_learned_best_fit": [
+          0.340498481365211,
+          -0.3507551499701387
+        ],
+        "best_fit_statistical_distance": 0.5281602293420892,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 4,
+        "exact_best_fit_theta": [
+          0.2666666666666666,
+          -0.4
+        ],
+        "learned_best_fit_theta": [
+          0.2666666666666666,
+          -0.33333333333333337
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.06666666666666665
+        ],
+        "centered_surface_rmse": 8.259906788702716,
+        "profile_a_rmse": 2.7130055078026776,
+        "profile_b_rmse": 6.448278826414795,
+        "hessian_relative_error": 0.038158005840795164,
+        "confidence_region_surface_RMSE": 0.6114613537691328,
+        "continuous_exact_best_fit": [
+          0.28225839538158104,
+          -0.3873603218561426
+        ],
+        "continuous_learned_best_fit": [
+          0.2800571047643701,
+          -0.36141069275993754
+        ],
+        "best_fit_statistical_distance": 0.4984400688397588,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 5,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.4
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.4
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.0
+        ],
+        "centered_surface_rmse": 8.618208992696074,
+        "profile_a_rmse": 2.5737248541527378,
+        "profile_b_rmse": 6.105865656982248,
+        "hessian_relative_error": 0.038399687232314246,
+        "confidence_region_surface_RMSE": 0.6659425089217862,
+        "continuous_exact_best_fit": [
+          0.3265018630279055,
+          -0.3913956100806859
+        ],
+        "continuous_learned_best_fit": [
+          0.3286280626328443,
+          -0.36624839109511387
+        ],
+        "best_fit_statistical_distance": 0.5254983747037807,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 6,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.33333333333333337
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.33333333333333337
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.0
+        ],
+        "centered_surface_rmse": 9.01055249223443,
+        "profile_a_rmse": 1.901524002031764,
+        "profile_b_rmse": 5.122321860814299,
+        "hessian_relative_error": 0.03366841635800953,
+        "confidence_region_surface_RMSE": 0.7933168365284154,
+        "continuous_exact_best_fit": [
+          0.35936151238888536,
+          -0.35737337963504345
+        ],
+        "continuous_learned_best_fit": [
+          0.367086412822748,
+          -0.3362199212974432
+        ],
+        "best_fit_statistical_distance": 0.5179000852842216,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      },
+      {
+        "experiment": 7,
+        "exact_best_fit_theta": [
+          0.33333333333333326,
+          -0.33333333333333337
+        ],
+        "learned_best_fit_theta": [
+          0.33333333333333326,
+          -0.33333333333333337
+        ],
+        "best_fit_offset": [
+          0.0,
+          0.0
+        ],
+        "centered_surface_rmse": 8.452601395360317,
+        "profile_a_rmse": 2.0215453041854223,
+        "profile_b_rmse": 5.301347502328708,
+        "hessian_relative_error": 0.033060437070808295,
+        "confidence_region_surface_RMSE": 0.7111929528543538,
+        "continuous_exact_best_fit": [
+          0.3094664457285895,
+          -0.3368330033408682
+        ],
+        "continuous_learned_best_fit": [
+          0.31497016618461,
+          -0.316748265305204
+        ],
+        "best_fit_statistical_distance": 0.46657407746250557,
+        "location_pass": true,
+        "confidence_region_shape_pass": true,
+        "learned_hessian_negative_definite": true
+      }
+    ],
+    "summary": {
+      "centered_surface_rmse": 8.814380742465252,
+      "profile_a_rmse": 2.0019365337871022,
+      "profile_b_rmse": 5.451908484598929,
+      "hessian_relative_error": 0.034955617969175,
+      "best_fit_match_fraction": 0.625,
+      "mean_absolute_best_fit_offset": [
+        0.0,
+        0.024999999999999994
+      ]
+    }
+  },
+  "qualification_pass": false,
+  "reference_anchor_max_absolute_log_ratio": 0.0,
+  "step": 16000,
+  "parameter_count": 8245,
+  "wall_seconds": 47.81759937107563
+}

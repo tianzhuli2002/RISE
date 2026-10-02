@@ -42,6 +42,66 @@ class RatioHead(nn.Module):
         return result if self.signed else result[:, 0]
 
 
+class ReferenceAnchoredBilinearRatioHead(nn.Module):
+    """Unsigned log ratio with explicit h-theta interaction and exact anchoring.
+
+    Degree-two delta-theta terms expose the mean-shift Gaussian's intercept.
+    A small residual learns event dependence beyond the bilinear term. The
+    subtraction uses the same event h, so r(h;theta0,theta0) is exactly one.
+    """
+
+    def __init__(self, event_width, parameter_dim, hidden, reference_theta):
+        super().__init__()
+        self.signed = False
+        self.event_width, self.parameter_dim = event_width, parameter_dim
+        reference = torch.as_tensor(reference_theta, dtype=torch.float32)
+        if reference.shape != (parameter_dim,) or not torch.isfinite(reference).all():
+            raise ValueError("Reference theta must be finite [parameter]")
+        if min(event_width, parameter_dim, hidden) <= 0:
+            raise ValueError("Positive event, parameter and hidden widths required")
+        self.register_buffer("reference_theta", reference)
+        indices = torch.triu_indices(parameter_dim, parameter_dim)
+        self.register_buffer("quadratic_indices", indices)
+        polynomial_width = parameter_dim + indices.shape[1]
+        embedding_width = max(1, hidden // 2)
+        self.parameter_encoder = nn.Sequential(
+            nn.Linear(polynomial_width, embedding_width), nn.SiLU(),
+            nn.Linear(embedding_width, embedding_width),
+        )
+        interaction_width = polynomial_width + embedding_width
+        self.bilinear = nn.Parameter(torch.empty(event_width, interaction_width))
+        nn.init.xavier_uniform_(self.bilinear)
+        self.offset = nn.Linear(interaction_width, 1, bias=False)
+        self.residual = nn.Sequential(
+            nn.Linear(event_width + interaction_width, hidden), nn.SiLU(),
+            nn.Linear(hidden, hidden), nn.SiLU(), nn.Linear(hidden, 1),
+        )
+
+    def _g(self, h, delta):
+        left, right = self.quadratic_indices
+        polynomial = torch.cat((delta, delta[:, left] * delta[:, right]), dim=-1)
+        phi = torch.cat((polynomial, self.parameter_encoder(polynomial)), dim=-1)
+        return (
+            ((h @ self.bilinear) * phi).sum(-1)
+            + self.offset(phi)[:, 0]
+            + self.residual(torch.cat((h, phi), dim=-1))[:, 0]
+        )
+
+    def forward(self, h, theta, reference_theta=None):
+        if (
+            h.ndim != 2 or h.shape[1] != self.event_width
+            or theta.shape != (len(h), self.parameter_dim)
+            or not torch.isfinite(h).all() or not torch.isfinite(theta).all()
+        ):
+            raise ValueError("Finite event [B,H] and theta [B,P] required")
+        reference = self.reference_theta if reference_theta is None else reference_theta
+        reference = torch.as_tensor(reference, device=h.device, dtype=h.dtype)
+        if reference.shape not in {(self.parameter_dim,), theta.shape} or not torch.isfinite(reference).all():
+            raise ValueError("Reference theta must be finite [P] or [B,P]")
+        delta = theta.to(h) - reference
+        return self._g(h, delta) - self._g(h, torch.zeros_like(delta))
+
+
 def unsigned_loss(logit, membership, signed_weight, normalisation=None):
     if (
         membership.shape != logit.shape
@@ -170,12 +230,21 @@ class RiseModule(JointEventModule):
         self.mode = str(research["mode"])
         if self.mode not in {"0", "P", "A"}:
             raise ValueError("RISE mode must be 0/P/A")
-        self.ratio_head = RatioHead(
+        head = research.get("ratio_head", "existing")
+        arguments = (
             int(experiment.model.latent.d_model),
-            len(research["parameter_names"]),
-            int(research["hidden"]),
-            signed=bool(research["signed_mixture"]),
+            len(research["parameter_names"]), int(research["hidden"]),
         )
+        if head == "existing":
+            self.ratio_head = RatioHead(*arguments, signed=bool(research["signed_mixture"]))
+        elif head == "reference_anchored_bilinear":
+            if research["signed_mixture"]:
+                raise ValueError("Reference-anchored bilinear head is unsigned only")
+            self.ratio_head = ReferenceAnchoredBilinearRatioHead(
+                *arguments, reference_theta=research["reference_theta"]
+            )
+        else:
+            raise ValueError(f"Unknown RISE ratio_head={head}")
         if not research["parameter_names"] or len(
             set(research["parameter_names"])
         ) != len(research["parameter_names"]):

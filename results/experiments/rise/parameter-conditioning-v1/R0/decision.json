@@ -1,0 +1,25 @@
+{
+  "verdict": "RISE_R0_BLOCKED",
+  "selected_head": null,
+  "qualification": {
+    "normalization": "each nonreference theta within 3 combined independent-evaluation and training-reference MC standard errors of unity",
+    "event_ratio": "each nonreference theta RMSE <= 3 times importance-sampling mean/intercept statistical uncertainty, recorded per point",
+    "likelihood_location": "all offsets within one exact local statistical sigma (Mahalanobis distance <=1), including grid discretization",
+    "likelihood_shape": "each centered-surface RMSE within the exact DeltaNLL<=3 confidence region <=1 log-likelihood unit",
+    "scope": "analytic architecture qualification only; full-grid profile/curvature errors also reported without post-hoc threshold changes"
+  },
+  "reference_data_sha256": "8126ccc771c6556ecd53b5a436da26b9005d94c36124b440a0ade92d818132f8",
+  "existing_sidecar_unchanged": true,
+  "checkpoint_results": {
+    "existing": {
+      "4000": "existing/step_4000.json",
+      "8000": "existing/step_8000.json",
+      "16000": "existing/step_16000.json"
+    },
+    "bilinear": {
+      "4000": "bilinear/step_4000.json",
+      "8000": "bilinear/step_8000.json",
+      "16000": "bilinear/step_16000.json"
+    }
+  }
+}
