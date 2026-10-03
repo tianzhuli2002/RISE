@@ -1,0 +1,205 @@
+{
+  "RISE_1_OVER_N_BUG_FIXED": true,
+  "RISE_SIGNED_ALGEBRA_VALID": true,
+  "RISE_OBJECTIVE_R0": "VALID",
+  "event_population": 48000,
+  "theta_grid": [
+    [
+      -0.8,
+      -0.8
+    ],
+    [
+      -0.8,
+      0.0
+    ],
+    [
+      -0.8,
+      0.8
+    ],
+    [
+      0.0,
+      -0.8
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.8
+    ],
+    [
+      0.8,
+      -0.8
+    ],
+    [
+      0.8,
+      0.0
+    ],
+    [
+      0.8,
+      0.8
+    ]
+  ],
+  "exact_log_ratio_basis": [
+    "a*x1",
+    "b*x2",
+    "a*x3",
+    "b*x3",
+    "a^2",
+    "b^2",
+    "a*b"
+  ],
+  "analytic_coefficients": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    -1.0,
+    -1.0,
+    -1.0
+  ],
+  "full_population_loss_at_analytic_coefficients": 0.5285423391205553,
+  "analytic_coefficient_gradient": [
+    -0.00012728658940397542,
+    -0.00012233531248397741,
+    -0.00020958579558561,
+    -0.0002016707287346438,
+    -0.00026147939619543226,
+    -0.00024020206418705624,
+    -0.00016532663742042998
+  ],
+  "analytic_coefficient_gradient_se": [
+    0.0002076923542537643,
+    0.00020952424859405094,
+    0.00034710763951363626,
+    0.00034761309114153657,
+    0.00041622492236448246,
+    0.0004167007946256504,
+    0.0003334126707583846
+  ],
+  "analytic_coefficient_gradient_max_abs_pull": 0.6282165774937868,
+  "full_batch_empirical_coefficients": [
+    0.9999385123965794,
+    1.0000175364333475,
+    0.9999479088615095,
+    0.9999839190327448,
+    -0.9951426907957845,
+    -0.9964426723524321,
+    -0.9920196037319934
+  ],
+  "coefficient_difference_max_abs_pull": 0.6647596920650387,
+  "full_batch_fit_converged_from_two_starts": true,
+  "target_mass_over_population": [
+    1.0020972890542328,
+    1.0090540603962717,
+    1.0045397297708096,
+    0.9989575962499047,
+    1.0,
+    0.9995008981707615,
+    0.9934722185972238,
+    0.987991445893599,
+    0.9750109301812987
+  ],
+  "finite_sample_bayes_logit_offset_log_W0_over_Wtheta": [
+    -0.0020950928137755745,
+    -0.00901331812875062,
+    -0.004529456278465408,
+    0.0010429474307404516,
+    -0.0,
+    0.000499226422014534,
+    0.006549180544579962,
+    0.012081239274180122,
+    0.025306597604768777
+  ],
+  "analytic_basis_independent_heldout_normalization": [
+    {
+      "theta": [
+        0.35,
+        -0.4
+      ],
+      "E_p0_r_hat": 1.0007324837680682,
+      "truth_normalization_pull_from_one": 1.275123446321627,
+      "log_ratio_RMSE": 8.461498053729962e-17,
+      "correlation": 1.0
+    },
+    {
+      "theta": [
+        -0.3,
+        0.45
+      ],
+      "E_p0_r_hat": 1.0000329296300186,
+      "truth_normalization_pull_from_one": 0.05414513441673759,
+      "log_ratio_RMSE": 7.687547789299055e-17,
+      "correlation": 1.0
+    },
+    {
+      "theta": [
+        1.0,
+        -0.5
+      ],
+      "E_p0_r_hat": 0.9977093564296519,
+      "truth_normalization_pull_from_one": -1.2382719262632587,
+      "log_ratio_RMSE": 1.6463589750491874e-16,
+      "correlation": 1.0
+    }
+  ],
+  "analytic_basis_surface_summary": {
+    "centered_surface_rmse": 3.779875568442169e-13,
+    "profile_a_rmse": 2.570893660157028e-13,
+    "profile_b_rmse": 2.79021357121245e-13,
+    "hessian_relative_error": 9.37309510157873e-14,
+    "best_fit_match_fraction": 1.0,
+    "mean_absolute_best_fit_offset": [
+      0.0,
+      0.0
+    ]
+  },
+  "finite_population_optimum_surface_summary": {
+    "centered_surface_rmse": 0.9032935770117201,
+    "profile_a_rmse": 0.21291751614920335,
+    "profile_b_rmse": 0.0968027343176951,
+    "hessian_relative_error": 0.005218865585354955,
+    "best_fit_match_fraction": 1.0,
+    "mean_absolute_best_fit_offset": [
+      0.0,
+      0.0
+    ]
+  },
+  "prior_neural_head_16k_controls": {
+    "existing": {
+      "parameter_count": 8769,
+      "training_steps": 16000,
+      "heldout_likelihood_best_fit_match_fraction": 0.0,
+      "mean_absolute_best_fit_offset": [
+        0.06666666666666665,
+        0.10833333333333334
+      ],
+      "centered_surface_rmse": 24.555198900718864,
+      "profile_a_rmse": 11.92727747745885,
+      "profile_b_rmse": 17.38328887467088,
+      "hessian_relative_error": 0.0988756884717127,
+      "reference_anchor_max_absolute_log_ratio": 0.2641502022743225,
+      "qualification_pass": false
+    },
+    "bilinear": {
+      "parameter_count": 8245,
+      "training_steps": 16000,
+      "heldout_likelihood_best_fit_match_fraction": 0.625,
+      "mean_absolute_best_fit_offset": [
+        0.0,
+        0.024999999999999994
+      ],
+      "centered_surface_rmse": 8.814380742465252,
+      "profile_a_rmse": 2.0019365337871022,
+      "profile_b_rmse": 5.451908484598929,
+      "hessian_relative_error": 0.034955617969175,
+      "reference_anchor_max_absolute_log_ratio": 0.0,
+      "qualification_pass": false
+    }
+  },
+  "interpretation": "The unchanged unsigned objective is correct. Its finite training-sidecar optimum adds c(theta)=log(W0/Wtheta), but the analytic log-ratio coefficients are stationary within 0.63 SE and the empirical coefficient fit agrees within 0.67 SE. Existing neural-head R0 failures are not explained by an objective defect.",
+  "objective_corrective_action": "none",
+  "physics_status": "RISE remains blocked from detector-level or 2HDM-shaped SBI because neither existing R0 RatioHead nor the bilinear alternative passed the previously frozen likelihood-surface qualification.",
+  "sealed_data_used": false
+}
