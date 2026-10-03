@@ -1,0 +1,170 @@
+{
+  "status": "completed",
+  "checkpoint": "R0/bilinear/step_16000.pt",
+  "independent_p0_events_per_theta": 5000,
+  "comparison": "delta_neural = log_ratio_bilinear - log_ratio_exact_basis; beta_hat is full-batch empirical optimum",
+  "beta_truth": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    -1.0,
+    -1.0,
+    -1.0
+  ],
+  "beta_hat": [
+    0.9999385123965794,
+    1.0000175364333475,
+    0.9999479088615095,
+    0.9999839190327448,
+    -0.9951426907957845,
+    -0.9964426723524321,
+    -0.9920196037319934
+  ],
+  "points": [
+    {
+      "theta": [
+        -0.8,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": -0.09255400447529871,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.15184193570596966,
+      "delta_neural_minus_beta_truth_bias": -0.08206224642917223,
+      "delta_neural_minus_beta_truth_RMSE": 0.14562424462380674,
+      "correlation_neural_vs_exact": 0.9992147926559134
+    },
+    {
+      "theta": [
+        -0.8,
+        0.0
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": -0.026467758030378836,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.08310771125096365,
+      "delta_neural_minus_beta_truth_bias": -0.023359593660173185,
+      "delta_neural_minus_beta_truth_RMSE": 0.0821274944619338,
+      "correlation_neural_vs_exact": 0.9990239834645669
+    },
+    {
+      "theta": [
+        -0.8,
+        0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.03787755467130107,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.0711958065245827,
+      "delta_neural_minus_beta_truth_bias": 0.03815614015833688,
+      "delta_neural_minus_beta_truth_RMSE": 0.07133983504905349,
+      "correlation_neural_vs_exact": 0.9995365060037485
+    },
+    {
+      "theta": [
+        0.0,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": -0.0333404974252872,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.06655124447791454,
+      "delta_neural_minus_beta_truth_bias": -0.03106406332302887,
+      "delta_neural_minus_beta_truth_RMSE": 0.06543192267265883,
+      "correlation_neural_vs_exact": 0.9990004637786505
+    },
+    {
+      "theta": [
+        0.0,
+        0.0
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.0,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.0,
+      "delta_neural_minus_beta_truth_bias": 0.0,
+      "delta_neural_minus_beta_truth_RMSE": 0.0,
+      "correlation_neural_vs_exact": null
+    },
+    {
+      "theta": [
+        0.0,
+        0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.009368478327575756,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.03540800625960409,
+      "delta_neural_minus_beta_truth_bias": 0.011644686436795441,
+      "delta_neural_minus_beta_truth_RMSE": 0.03606788631289273,
+      "correlation_neural_vs_exact": 0.9997783602784654
+    },
+    {
+      "theta": [
+        0.8,
+        -0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.0037965727592443187,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.07027577488913056,
+      "delta_neural_minus_beta_truth_bias": 0.004074135223792226,
+      "delta_neural_minus_beta_truth_RMSE": 0.07030170246617994,
+      "correlation_neural_vs_exact": 0.9990878277205898
+    },
+    {
+      "theta": [
+        0.8,
+        0.0
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.01850894985254589,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.0475344239582579,
+      "delta_neural_minus_beta_truth_bias": 0.021618320468515168,
+      "delta_neural_minus_beta_truth_RMSE": 0.048808537649296754,
+      "correlation_neural_vs_exact": 0.9994094128827624
+    },
+    {
+      "theta": [
+        0.8,
+        0.8
+      ],
+      "parameter_set": "training",
+      "delta_neural_minus_beta_hat_basis_bias": 0.006718943797347393,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.07753100509987125,
+      "delta_neural_minus_beta_truth_bias": 0.017211097925540146,
+      "delta_neural_minus_beta_truth_RMSE": 0.07910060365215953,
+      "correlation_neural_vs_exact": 0.9994995655666046
+    },
+    {
+      "theta": [
+        0.35,
+        -0.4
+      ],
+      "parameter_set": "heldout",
+      "delta_neural_minus_beta_hat_basis_bias": -0.0016811797379798744,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.03328337264885467,
+      "delta_neural_minus_beta_truth_bias": -0.0016339383944100453,
+      "delta_neural_minus_beta_truth_RMSE": 0.03327107147220293,
+      "correlation_neural_vs_exact": 0.9985175023884585
+    },
+    {
+      "theta": [
+        -0.3,
+        0.45
+      ],
+      "parameter_set": "heldout",
+      "delta_neural_minus_beta_hat_basis_bias": 0.016883267798916433,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.02957292546513521,
+      "delta_neural_minus_beta_truth_bias": 0.016963574738161277,
+      "delta_neural_minus_beta_truth_RMSE": 0.02961123431566615,
+      "correlation_neural_vs_exact": 0.9996639441767701
+    },
+    {
+      "theta": [
+        1.0,
+        -0.5
+      ],
+      "parameter_set": "heldout",
+      "delta_neural_minus_beta_hat_basis_bias": 0.035489267569333786,
+      "delta_neural_minus_beta_hat_basis_RMSE": 0.0884232613472131,
+      "delta_neural_minus_beta_truth_bias": 0.037245493025431176,
+      "delta_neural_minus_beta_truth_RMSE": 0.08919733546235396,
+      "correlation_neural_vs_exact": 0.9986269992790155
+    }
+  ]
+}
