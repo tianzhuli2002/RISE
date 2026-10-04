@@ -76,6 +76,8 @@ class ReferenceAnchoredBilinearRatioHead(nn.Module):
             nn.Linear(event_width + interaction_width, hidden), nn.SiLU(),
             nn.Linear(hidden, hidden), nn.SiLU(), nn.Linear(hidden, 1),
         )
+        nn.init.zeros_(self.residual[-1].weight)
+        nn.init.zeros_(self.residual[-1].bias)
 
     def _g(self, h, delta):
         left, right = self.quadratic_indices
