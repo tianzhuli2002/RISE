@@ -39,16 +39,42 @@ training-reference/evaluation MC SE 0.01222. Boundary log-ratio RMSE 0.09011
 exceeds its predeclared 3-sigma MC allowance 0.07228. Reference anchoring itself
 is exact but does not normalize other theta points.
 
-Verdict: **RISE_R0_BLOCKED**. Explicit interaction is a useful inductive bias,
-but neither extended training nor this architecture establishes trustworthy
-parameterized closure. The remaining objective/optimization error is unresolved;
-no additional architecture is tested or adopted as default. R1 is not trained.
-Its exact mean/covariance definition is fixed in `r1.json` and independently
-cross-checked against SciPy Gaussian log densities. R2 design is not reached.
+### Follow-up objective and initialization controls
 
-The single next experiment is an exact Gaussian bilinear/quadratic-basis
-optimization control through the unchanged parameterized unsigned objective.
-This isolates the remaining error without another flexible architecture search.
+The stochastic 16k-step bilinear run was repeated with the residual output
+layer zero-initialized. This leaves the reference anchoring, explicit
+event--parameter interaction, data, theta grid, seed, Adam settings and
+unsigned objective unchanged. It did not close the remaining gates:
+
+| Bilinear initialization / steps | Held-out RMSEs | Held-out `E_p0[rhat]` | Grid best-fit matches | Surface RMSE | Profile a / b RMSE | Hessian error |
+|---|---|---|---:|---:|---|---:|
+| Standard / 16k | 0.0339, 0.0269, 0.0901 | 0.98684, 1.00592, 0.97962 | 5/8 | 8.81 | 2.00 / 5.45 | 0.035 |
+| Zero residual / 16k | 0.0352, 0.0269, 0.0879 | 0.98615, 1.00595, 0.98255 | 5/8 | 9.14 | 2.17 / 5.96 | 0.048 |
+
+The follow-up run records equal-theta-weighted training RMSEs of `0.2778`
+(existing / 4k), `0.1502` (existing / 16k), `0.0936` (bilinear / 16k), and
+`0.0946` (zero-residual bilinear / 16k). The earlier table above retains the
+aggregate metric from the initial matched comparison.
+
+The exact bilinear control is representable to maximum absolute log-ratio
+error `5.55e-7`. On the 48k-event population, deterministic full-data BCE
+optimization from two starts reached nearly identical losses (`0.528538823`
+and `0.528540671`), but only one start passed all held-out ratio gates. A
+deterministic fit with the residual branch disabled passed at loss
+`0.528537393`. These controls show that explicit interaction substantially
+improves the stochastic fit, while the stochastic qualification remains
+sensitive to the optimization path and residual branch. The cause is not yet
+isolated to a single implementation component.
+
+Verdict remains **RISE_R0_BLOCKED**. R1 is not run, and detector-level RISE,
+the interference toy, and real 2HDM training remain gated. R2 design is not
+reached.
+
+The single next experiment is to train the explicit bilinear branch with its
+residual MLP disabled through the unchanged stochastic
+`ReweightedRatioBatch`/`unsigned_loss` path, keeping the same R0 population,
+theta grid, seed, optimizer and 16k-step budget. This tests the residual-path
+versus stochastic-optimization interaction without adding another head.
 
 All checkpoint states, fixed-checkpoint metrics, training histories, matched
 comparison and decisions are retained under
