@@ -232,7 +232,65 @@ def diagnostics(head, reference, config, toy):
     }
 
 
-def fit(name, reference, sidecar, config, toy):
+def bilinear_branch_outputs(head, events, theta):
+    """Return separately anchored explicit and residual log-ratio terms."""
+    delta = theta.to(events) - head.reference_theta.to(events)
+    zero = torch.zeros_like(delta)
+    left, right = head.quadratic_indices
+
+    def terms(parameter_delta):
+        polynomial = torch.cat(
+            (parameter_delta, parameter_delta[:, left] * parameter_delta[:, right]),
+            dim=-1,
+        )
+        phi = torch.cat((polynomial, head.parameter_encoder(polynomial)), dim=-1)
+        explicit = ((events @ head.bilinear) * phi).sum(-1) + head.offset(phi)[:, 0]
+        residual = head.residual(torch.cat((events, phi), dim=-1))[:, 0]
+        return explicit, residual
+
+    explicit, residual = terms(delta)
+    explicit_zero, residual_zero = terms(zero)
+    return explicit - explicit_zero, residual - residual_zero
+
+
+def branch_snapshot(head, reference, sidecar, config):
+    if not isinstance(head, ReferenceAnchoredBilinearRatioHead):
+        return None
+    rows = np.arange(min(config["batch_size"], len(reference)))
+    adapter = ReweightedRatioBatch(
+        sidecar, sidecar.event_id, reference_point=4, seed=config["seed"] + 901
+    )
+    batch = adapter(
+        {
+            "tokens": torch.ones((len(rows), 1)),
+            "event_index": torch.as_tensor(sidecar.event_id[rows]),
+        }
+    )
+    events = torch.as_tensor(reference[rows], dtype=torch.float32)
+    explicit, residual = bilinear_branch_outputs(head, events, batch["theta"])
+    # Gradients with respect to branch outputs expose objective allocation
+    # without updating parameters or coupling the diagnostic to optimizer state.
+    explicit_leaf = explicit.detach().requires_grad_(True)
+    residual_leaf = residual.detach().requires_grad_(True)
+    loss = unsigned_loss(
+        explicit_leaf + residual_leaf,
+        batch["membership"],
+        batch["signed_weight"],
+        batch["class_normalisation"],
+    )
+    explicit_gradient, residual_gradient = torch.autograd.grad(
+        loss, (explicit_leaf, residual_leaf)
+    )
+    return {
+        "fixed_diagnostic_events": len(rows),
+        "explicit_output_RMS": float(explicit.detach().square().mean().sqrt()),
+        "residual_output_RMS": float(residual.detach().square().mean().sqrt()),
+        "explicit_loss_gradient_L2": float(torch.linalg.vector_norm(explicit_gradient)),
+        "residual_loss_gradient_L2": float(torch.linalg.vector_norm(residual_gradient)),
+    }
+
+
+def fit(name, reference, sidecar, config, toy, *, disable_residual=False):
     torch.manual_seed(config["seed"])
     head = (
         RatioHead(3, 2, config["hidden"])
@@ -241,6 +299,11 @@ def fit(name, reference, sidecar, config, toy):
             3, 2, config["hidden"], config["reference_theta"]
         )
     )
+    if disable_residual:
+        if not isinstance(head, ReferenceAnchoredBilinearRatioHead):
+            raise ValueError("Only the bilinear RatioHead has a residual branch")
+        for parameter in head.residual.parameters():
+            parameter.requires_grad_(False)
     adapter = ReweightedRatioBatch(
         sidecar, sidecar.event_id, reference_point=4, seed=config["seed"] + 1
     )
@@ -301,9 +364,16 @@ def fit(name, reference, sidecar, config, toy):
                 {
                     "step": step,
                     "parameter_count": sum(p.numel() for p in head.parameters()),
+                    "trainable_parameter_count": sum(
+                        p.numel() for p in head.parameters() if p.requires_grad
+                    ),
+                    "residual_branch_enabled": not disable_residual,
                     "wall_seconds": time.perf_counter() - start,
                 }
             )
+            branch = branch_snapshot(head, reference, sidecar, config)
+            if branch is not None:
+                result["branch_snapshot"] = branch
             checkpoints[str(step)] = result
             save(directory / f"step_{step}.json", result)
             save(directory / "history.json", history)

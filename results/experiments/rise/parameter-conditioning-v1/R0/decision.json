@@ -21,5 +21,162 @@
       "8000": "bilinear/step_8000.json",
       "16000": "bilinear/step_16000.json"
     }
-  }
+  },
+  "dominant_failure_class": "OPTIMIZATION_PATH_SENSITIVE_SOLUTION_SELECTION",
+  "RISE_NEURAL_R0": "FAIL",
+  "RISE_R1_ANALYTIC_QUALIFICATION": "NOT_RUN_R0_BLOCKED",
+  "RISE_READY_FOR_DETECTOR_LEVEL_PHYSICS": false,
+  "direct_representability": {
+    "head": "ReferenceAnchoredBilinearRatioHead",
+    "parameters": 8245,
+    "exact_bilinear_control_max_abs_error": 5.546657959598633e-07,
+    "training_theta_RMSE": 0.0009598980212603673,
+    "heldout_theta_RMSE": [
+      0.03152648793500158,
+      0.024240998884337343,
+      0.10332729078109273
+    ],
+    "heldout_theta_bias": [
+      0.011247636556974819,
+      0.0037475336733361103,
+      -0.04320611082615756
+    ]
+  },
+  "deterministic_full_batch_bce": {
+    "seed_20261403": {
+      "final_loss": 0.5285388231277466,
+      "wall_seconds": 164.62757200701162,
+      "qualification_pass": true,
+      "heldout_log_ratio_RMSE": [
+        0.00904108486753744,
+        0.008589516957919208,
+        0.021067022308862753
+      ],
+      "heldout_E_p0_rhat": [
+        1.0046589021041294,
+        1.0039408917335637,
+        1.0108178166320738
+      ],
+      "centered_surface_rmse": 2.0673476149762187,
+      "profile_a_rmse": 1.4471125325350638,
+      "profile_b_rmse": 1.1886930111914538,
+      "hessian_relative_error": 0.025101357342108728,
+      "best_fit_match_fraction": 0.75,
+      "mean_absolute_best_fit_offset": [
+        0.008333333333333331,
+        0.016666666666666663
+      ]
+    },
+    "seed_20261404": {
+      "final_loss": 0.5285406708717346,
+      "wall_seconds": 166.68471278995275,
+      "qualification_pass": false,
+      "heldout_log_ratio_RMSE": [
+        0.030652594042370706,
+        0.02485897123891807,
+        0.09349287329884473
+      ],
+      "heldout_E_p0_rhat": [
+        1.0144920521164986,
+        0.9963401166060435,
+        1.0859655364919465
+      ],
+      "centered_surface_rmse": 3.6144219239560855,
+      "profile_a_rmse": 2.6051146451295946,
+      "profile_b_rmse": 2.3688316239209892,
+      "hessian_relative_error": 0.027806207819864565,
+      "best_fit_match_fraction": 0.625,
+      "mean_absolute_best_fit_offset": [
+        0.016666666666666663,
+        0.016666666666666663
+      ]
+    }
+  },
+  "deterministic_explicit_only": {
+    "final_loss": 0.528537392616272,
+    "qualification_pass": true,
+    "heldout_log_ratio_RMSE": [
+      0.01040498911096285,
+      0.009574242255096172,
+      0.012228776537156667
+    ],
+    "heldout_E_p0_rhat": [
+      1.0058305910725567,
+      0.9924318695942809,
+      1.0131675530049638
+    ],
+    "centered_surface_rmse": 2.278682989834314,
+    "profile_a_rmse": 2.4055981282880223,
+    "profile_b_rmse": 0.9627435427105835,
+    "hessian_relative_error": 0.019476359596080677,
+    "best_fit_match_fraction": 0.75,
+    "mean_absolute_best_fit_offset": [
+      0.016666666666666663,
+      0.008333333333333331
+    ]
+  },
+  "full_stochastic_branch_diagnostics": {
+    "diagnostic_loss": 0.5271708369255066,
+    "explicit_output_RMS": 2.406032085418701,
+    "residual_output_RMS": 0.2957473397254944,
+    "explicit_gradient_norm": 0.010969062335789204,
+    "residual_gradient_norm": 0.001111044199205935
+  },
+  "explicit_only_stochastic": {
+    "steps": 16000,
+    "trainable_parameter_count": 1396,
+    "residual_branch_enabled": false,
+    "qualification_pass": false,
+    "heldout_log_ratio_RMSE": [
+      0.045697316235556285,
+      0.02912559187536287,
+      0.07917928623011841
+    ],
+    "heldout_E_p0_rhat": [
+      0.9758624226344057,
+      1.0037490047245585,
+      0.9821395101350169
+    ],
+    "centered_surface_rmse": 8.927248840519308,
+    "profile_a_rmse": 5.397178420041735,
+    "profile_b_rmse": 8.110605814252446,
+    "hessian_relative_error": 0.08119157465668202,
+    "best_fit_match_fraction": 0.25,
+    "mean_absolute_best_fit_offset": [
+      0.04166666666666666,
+      0.033333333333333326
+    ],
+    "result_path": "results/experiments/rise/parameter-conditioning-v1/R0-explicit-only-stochastic/decision.json"
+  },
+  "theta_class_balanced_stochastic": {
+    "steps": 16000,
+    "batch_size": 512,
+    "qualification_pass": false,
+    "heldout_log_ratio_RMSE": [
+      0.045331376422170624,
+      0.051831430099817485,
+      0.17449296615805182
+    ],
+    "heldout_E_p0_rhat": [
+      1.0165930005368558,
+      1.0179291074640537,
+      0.98015854206146
+    ],
+    "centered_surface_rmse": 7.088358580355271,
+    "profile_a_rmse": 4.2080701655523445,
+    "profile_b_rmse": 3.181527741622369,
+    "hessian_relative_error": 0.045844347818026064,
+    "best_fit_match_fraction": 0.625,
+    "mean_absolute_best_fit_offset": [
+      0.016666666666666663,
+      0.016666666666666663
+    ],
+    "wall_seconds": 62.19303002813831,
+    "result_path": "results/experiments/rise/parameter-conditioning-v1/R0-theta-balanced-exact-risk",
+    "objective_definition_unchanged": true,
+    "stratified_sampling_estimator_unbiased_for_uniform_theta_equal_class_risk": true
+  },
+  "single_next_action": "Initialize the unchanged stochastic BCE qualification from the passing deterministic bilinear checkpoint and test whether minibatch optimization preserves held-out ratio closure.",
+  "R1_run": false,
+  "detector_level_or_2HDM_run": false
 }

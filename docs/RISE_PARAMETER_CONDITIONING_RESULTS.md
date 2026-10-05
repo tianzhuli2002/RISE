@@ -66,15 +66,17 @@ improves the stochastic fit, while the stochastic qualification remains
 sensitive to the optimization path and residual branch. The cause is not yet
 isolated to a single implementation component.
 
-Verdict remains **RISE_R0_BLOCKED**. R1 is not run, and detector-level RISE,
-the interference toy, and real 2HDM training remain gated. R2 design is not
-reached.
+The explicit-only stochastic run and an exactly risk-preserving
+theta/class-balanced repeat have now both completed and failed R0. Full-data
+LBFGS passes from one initialization and fails from another at nearly the same
+objective value. The remaining diagnosis is optimization-path-sensitive
+solution selection; residual-branch dominance and theta/class batch-count
+fluctuation are not sufficient explanations. See
+[`RISE_R0_NEURAL_DIAGNOSIS.md`](RISE_R0_NEURAL_DIAGNOSIS.md) for the final
+metrics, machine-readable decision, and single next experiment.
 
-The single next experiment is to train the explicit bilinear branch with its
-residual MLP disabled through the unchanged stochastic
-`ReweightedRatioBatch`/`unsigned_loss` path, keeping the same R0 population,
-theta grid, seed, optimizer and 16k-step budget. This tests the residual-path
-versus stochastic-optimization interaction without adding another head.
+R1, detector-level RISE, the interference toy, and real 2HDM training remain
+gated.
 
 All checkpoint states, fixed-checkpoint metrics, training histories, matched
 comparison and decisions are retained under
