@@ -266,6 +266,7 @@ def branch_diagnostics(head, population, limit=16_384):
             selected.append(rows)
     rows = torch.cat(selected)
     h, theta = h[rows], theta[rows]
+    h = h.detach().requires_grad_(True)
     membership, weight, normalisation = (
         membership[rows], weight[rows], normalisation[rows]
     )
@@ -282,12 +283,19 @@ def branch_diagnostics(head, population, limit=16_384):
 
     with torch.no_grad():
         explicit, residual = branch_components(head, h[:2048], theta[:2048])
+        explicit_flat, residual_flat = explicit.flatten(), residual.flatten()
+        branch_cosine = torch.dot(explicit_flat, residual_flat) / (
+            torch.linalg.vector_norm(explicit_flat)
+            * torch.linalg.vector_norm(residual_flat)
+        ).clamp_min(1e-20)
     return {
         "diagnostic_loss": float(loss.detach()),
         "explicit_output_RMS": float(explicit.square().mean().sqrt()),
         "residual_output_RMS": float(residual.square().mean().sqrt()),
+        "explicit_residual_output_cosine": float(branch_cosine),
         "explicit_gradient_norm": norm(explicit_parameters),
         "residual_gradient_norm": norm(residual_parameters),
+        "event_representation_gradient_norm": float(torch.linalg.vector_norm(h.grad)),
     }
 
 

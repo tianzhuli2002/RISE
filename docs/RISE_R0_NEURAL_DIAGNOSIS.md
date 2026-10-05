@@ -9,13 +9,11 @@ existing `RatioHead` has 8,769 parameters; the reference-anchored bilinear
 alternative has 8,245. The exact bilinear-control maximum absolute log-ratio
 error is `5.55e-7`.
 
-The neural qualification remains **RISE_R0_BLOCKED**. The evidence isolates
-the dominant failure to **optimization-path-sensitive solution selection**:
-the same bilinear function class can represent the exact ratio, but the
-validated BCE has multiple numerically similar solutions with markedly
-different held-out ratio closure. Residual-branch interference and random
-theta/class composition alone do not explain the failure. This conclusion is
-specific to R0 and makes no collider-sensitivity claim.
+The neural qualification remains **RISE_R0_BLOCKED**. The dominant failure
+class is **STOCHASTIC_OPTIMIZATION**: a passing full-batch solution loses
+qualification after continued minibatch optimization from the same weights.
+The exact function is representable, and residual dominance is not supported.
+This conclusion is specific to R0 and makes no collider-sensitivity claim.
 
 ## Direct representability and stochastic comparisons
 
@@ -71,23 +69,46 @@ explicit-only stochastic run, residual output is exactly zero and only
 the two additive branch-output leaves are equal by the sum structure of the
 logit; those are not parameter-gradient norms.
 
-The exact-risk theta/class-balanced repeat also failed. Taken together, the
-deterministic same-loss/different-generalization result and stochastic
-failures isolate the issue to optimization-path-dependent selection among
-poorly distinguished BCE solutions, rather than an impossible x-theta
-representation, residual dominance, or simple theta/class minibatch
-imbalance. A residual optimizer-solution ambiguity remains; no R0 correction
-has been adopted.
+The exact-risk theta/class-balanced repeat also failed. Fixed snapshots at
+4k/8k/16k on the same balanced 16,384-row diagnostic population show that the
+explicit branch output RMS grows `2.112 -> 2.165 -> 2.406`, while residual RMS
+falls `0.766 -> 0.462 -> 0.296`. Explicit/residual parameter-gradient norms
+are `0.02780 -> 0.01279 -> 0.01097` and `0.00824 -> 0.00392 -> 0.00111`;
+event-representation gradient norm stays near `0.004`. The branch output
+cosine is positive (`0.664 -> 0.900`), so cancellation is not indicated.
+
+At the passing deterministic checkpoint, 128 maintained-objective minibatches
+of 512 rows have mean loss `0.52847 +/- 0.01753` and gradient-norm
+`0.07535 +/- 0.01654`. The mean-gradient/noise-norm ratio is `0.0648`.
+Theta-cell counts average 56.2–57.6 of the expected 56.9; positive/reference
+class counts average 256.4/255.6. Thus the batch means are balanced, but the
+minibatch gradient fluctuates strongly compared with its mean direction.
+
+Starting the unchanged stochastic qualification from the passing deterministic
+state at LR `0.002` still fails after 16k updates. The sole later correction
+tested lowered LR tenfold to `0.0002`, holding architecture, row sampling,
+theta/class sampling, batch size and unsigned objective fixed. This improves
+the confidence-region surface RMSEs to `0.13–0.34` and gives 7/8 grid
+best-fit matches, but R0 still fails the predeclared normalization gate at
+training theta `(-0.8,0.8)`: `E_p0[rhat]=0.9491 +/- 0.0118`, 4.3 combined
+Monte Carlo standard errors below one. Held-out normalization passes at
+`1.0007, 0.9965, 1.0014`; held-out log-ratio RMSEs are
+`0.0200, 0.0095, 0.0358`. No acceptance threshold was changed.
+
+These results support stochastic-optimization sensitivity rather than a
+missing x-theta interaction or residual-branch interference. The residual
+branch is not dominant, and theta/class counts are balanced on average. R0
+remains blocked because one training-grid normalization point fails.
 
 ## Readiness and next action
 
 `RISE_NEURAL_R0 = FAIL`. R1, the detector-level interference toy and real
 2HDM training were not run. RISE is **not ready for detector-level or signed
-interference physics**. The single next action is to initialize the unchanged
-stochastic BCE qualification from the passing deterministic bilinear
-checkpoint and measure whether minibatch optimization preserves its verified
-held-out solution. This directly tests the remaining path-sensitivity without
-adding an architecture or changing the objective.
+interference physics**. The single next action is four-batch gradient
+accumulation (effective batch 2,048) from the passing deterministic bilinear
+checkpoint at LR `0.0002`, with the same sampler and unsigned objective. The
+measured gradient noise motivates this one correction; qualification gates
+remain unchanged.
 
 The full result record is
 `results/experiments/rise/parameter-conditioning-v1/R0/decision.json`.
@@ -95,5 +116,11 @@ Detailed checkpoints and metrics are under
 `results/experiments/rise/parameter-conditioning-v1/R0/`;
 the exact-risk stratified comparison is under
 `results/experiments/rise/parameter-conditioning-v1/R0-theta-balanced-exact-risk/`.
-The compact comparison plot is
+The architecture/optimization comparison plot is
 `results/experiments/rise/parameter-conditioning-v1/R0-qualification/RISE_R0_architecture_and_optimization_diagnostic.png`.
+Branch scales and gradients are in
+`results/experiments/rise/parameter-conditioning-v1/R0/bilinear/branch_diagnostics.json`;
+the minibatch-gradient measurement is in
+`results/experiments/rise/r0-neural-diagnosis-v1/complete-02/minibatch_gradient_noise.json`.
+The branch figure is
+`results/experiments/rise/parameter-conditioning-v1/R0-qualification/RISE_R0_branch_diagnostics.png`.

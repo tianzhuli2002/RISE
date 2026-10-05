@@ -71,6 +71,17 @@ def main():
                      item["likelihood"]["summary"]["centered_surface_rmse"],
                      item["qualification_pass"]))
 
+    for directory, label in (
+        ("warmstart_stochastic", "Warm-start Adam 0.002 / 16k"),
+        ("warmstart_stochastic_lr_2e-4", "Warm-start Adam 0.0002 / 16k"),
+    ):
+        path = RESULTS / "r0-neural-diagnosis-v1/complete-02" / directory / "comparison.json"
+        if path.exists():
+            item = read(path)["results"]["16000"]
+            rows.append((label, "stochastic", max_heldout_rmse(item["ratio_points"]),
+                         item["likelihood"]["summary"]["centered_surface_rmse"],
+                         item["qualification_pass"]))
+
     colors = {"stochastic": "#3B6FB6", "deterministic": "#C75B39", "balanced stochastic": "#248A68"}
     fig, axes = plt.subplots(1, 2, figsize=(12, 5.4), sharey=True)
     y = list(range(len(rows)))
@@ -96,6 +107,34 @@ def main():
     fig.savefig(OUT / "RISE_R0_architecture_and_optimization_diagnostic.png", dpi=180)
     plt.close(fig)
     print(f"Wrote {OUT / 'RISE_R0_architecture_and_optimization_diagnostic.png'}")
+
+    branch_path = RESULTS / "parameter-conditioning-v1/R0/bilinear/branch_diagnostics.json"
+    if branch_path.exists():
+        branch = read(branch_path)["checkpoints"]
+        steps = sorted(map(int, branch))
+        explicit_rms = [branch[str(step)]["explicit_output_RMS"] for step in steps]
+        residual_rms = [branch[str(step)]["residual_output_RMS"] for step in steps]
+        explicit_grad = [branch[str(step)]["explicit_gradient_norm"] for step in steps]
+        residual_grad = [branch[str(step)]["residual_gradient_norm"] for step in steps]
+        event_grad = [branch[str(step)]["event_representation_gradient_norm"] for step in steps]
+        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+        axes[0].plot(steps, explicit_rms, "o-", color="#3B6FB6", label="explicit")
+        axes[0].plot(steps, residual_rms, "s--", color="#C75B39", label="residual")
+        axes[0].set_ylabel("anchored branch output RMS")
+        axes[0].legend()
+        axes[1].plot(steps, explicit_grad, "o-", color="#3B6FB6", label="explicit parameters")
+        axes[1].plot(steps, residual_grad, "s--", color="#C75B39", label="residual parameters")
+        axes[1].plot(steps, event_grad, "^-.", color="#248A68", label="event representation")
+        axes[1].set_ylabel("unsigned BCE gradient L2")
+        axes[1].legend(fontsize=8)
+        for axis in axes:
+            axis.set_xlabel("stochastic training step")
+            axis.grid(alpha=0.22)
+        fig.suptitle("Reference-anchored bilinear R0 branch diagnostics")
+        fig.tight_layout()
+        fig.savefig(OUT / "RISE_R0_branch_diagnostics.png", dpi=180)
+        plt.close(fig)
+        print(f"Wrote {OUT / 'RISE_R0_branch_diagnostics.png'}")
 
 
 if __name__ == "__main__":

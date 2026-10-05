@@ -22,7 +22,7 @@
       "16000": "bilinear/step_16000.json"
     }
   },
-  "dominant_failure_class": "OPTIMIZATION_PATH_SENSITIVE_SOLUTION_SELECTION",
+  "dominant_failure_class": "STOCHASTIC_OPTIMIZATION",
   "RISE_NEURAL_R0": "FAIL",
   "RISE_R1_ANALYTIC_QUALIFICATION": "NOT_RUN_R0_BLOCKED",
   "RISE_READY_FOR_DETECTOR_LEVEL_PHYSICS": false,
@@ -176,7 +176,14 @@
     "objective_definition_unchanged": true,
     "stratified_sampling_estimator_unbiased_for_uniform_theta_equal_class_risk": true
   },
-  "single_next_action": "Initialize the unchanged stochastic BCE qualification from the passing deterministic bilinear checkpoint and test whether minibatch optimization preserves held-out ratio closure.",
+  "single_next_action": "Add four-batch gradient accumulation (effective batch 2048) to one warm-started R0 run at Adam LR 2e-4, keeping the same head, rows, theta/class sampler, sidecar and unsigned loss; require the existing qualification unchanged.",
   "R1_run": false,
-  "detector_level_or_2HDM_run": false
+  "detector_level_or_2HDM_run": false,
+  "followup_diagnostics": {
+    "branch_checkpoints": "results/experiments/rise/parameter-conditioning-v1/R0/bilinear/branch_diagnostics.json",
+    "minibatch_gradient_noise": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/minibatch_gradient_noise.json",
+    "standard_rate_warmstart": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic/comparison.json",
+    "reduced_rate_warmstart": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4/comparison.json",
+    "finding": "A passing full-batch bilinear state loses R0 qualification under the unchanged minibatch sampler/objective. Lowering Adam LR tenfold substantially improves local likelihood surfaces, but one training-grid normalization point remains 4.3 combined MC standard errors low: E_p0[rhat]=0.9491 at theta=(-0.8,0.8). Theta/class counts are balanced on average; 128-batch mean-to-noise gradient norm ratio is 0.0648."
+  }
 }

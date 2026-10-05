@@ -67,12 +67,16 @@ sensitive to the optimization path and residual branch. The cause is not yet
 isolated to a single implementation component.
 
 The explicit-only stochastic run and an exactly risk-preserving
-theta/class-balanced repeat have now both completed and failed R0. Full-data
-LBFGS passes from one initialization and fails from another at nearly the same
-objective value. The remaining diagnosis is optimization-path-sensitive
-solution selection; residual-branch dominance and theta/class batch-count
-fluctuation are not sufficient explanations. See
-[`RISE_R0_NEURAL_DIAGNOSIS.md`](RISE_R0_NEURAL_DIAGNOSIS.md) for the final
+theta/class-balanced repeat have both failed R0. Full-data LBFGS passes from
+one initialization and fails from another at nearly the same objective value.
+The passing deterministic state also fails after standard stochastic
+continuation. A single tenfold Adam learning-rate reduction improves local
+likelihood surfaces, but leaves one training-grid normalization failure
+(`E_p0[rhat]=0.9491 +/- 0.0118` at `theta=(-0.8,0.8)`). A fixed 128-minibatch
+diagnostic finds theta/class counts balanced on average but mean-gradient to
+gradient-noise norm ratio `0.0648`. The final failure class is
+`STOCHASTIC_OPTIMIZATION`; residual branch dominance is not supported. See
+[`RISE_R0_NEURAL_DIAGNOSIS.md`](RISE_R0_NEURAL_DIAGNOSIS.md) for the exact
 metrics, machine-readable decision, and single next experiment.
 
 R1, detector-level RISE, the interference toy, and real 2HDM training remain
