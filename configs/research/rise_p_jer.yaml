@@ -5,7 +5,7 @@ data:
     test: null
     train: 16
     validation: 8
-  input: /net/scratch/w00238tl/JointEventReconstruction_RISE/results/experiments/rise/development/measured.h5
+  input: /net/scratch/w00238tl/rise/results/experiments/rise/development/measured.h5
   loader:
     persistent_workers: false
     pin_memory: false
@@ -179,7 +179,7 @@ training:
     assignment: 0.0
     invisible: 0.0
     partonic: 0.0
-  output: /net/scratch/w00238tl/JointEventReconstruction_RISE/results/experiments/rise/development/training
+  output: /net/scratch/w00238tl/rise/results/experiments/rise/development/training
   partonic_shared_encoder_gradients: both
   precision: 32-true
   shared_encoder_gradients: both

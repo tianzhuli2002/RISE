@@ -39,7 +39,7 @@ Source commit: `ec54f6b13817009b5ec0472e084a034f044980a4`. CPU only; sealed_test
   },
   "source_commit": "ec54f6b13817009b5ec0472e084a034f044980a4",
   "branch": "research/rise-implementation-v1",
-  "worktree": "/net/scratch/w00238tl/JointEventReconstruction_RISE",
+  "worktree": "/net/scratch/w00238tl/rise",
   "sealed_test_used": false,
   "population": "32 synthetic events, 24 train / 8 validation; ROOT metadata audit only",
   "rise_end_to_end": "PASS",
@@ -52,8 +52,8 @@ Source commit: `ec54f6b13817009b5ec0472e084a034f044980a4`. CPU only; sealed_test
     "configs/research/rise_0_jer.yaml": "900d9be90b77965639f80a8b940a01d1854982c96c7a95fd2ee795f7bf6be458"
   },
   "inputs": {
-    "/net/scratch/w00238tl/JointEventReconstruction_RISE/results/experiments/rise/development/measured.h5": "b8d5db2be095236f601ce32c0fe7a01a312c656476b64fed60aef27cc5478b99",
-    "/net/scratch/w00238tl/JointEventReconstruction_RISE/results/experiments/rise/development/parents.h5": "abe0872e3baa6a8800bdf5dbdaecc9b4ebf13db36abd1c8abf404d83699186da"
+    "/net/scratch/w00238tl/rise/results/experiments/rise/development/measured.h5": "b8d5db2be095236f601ce32c0fe7a01a312c656476b64fed60aef27cc5478b99",
+    "/net/scratch/w00238tl/rise/results/experiments/rise/development/parents.h5": "abe0872e3baa6a8800bdf5dbdaecc9b4ebf13db36abd1c8abf404d83699186da"
   },
   "targeted_existing_scaler_tests": "maintained loader exercised by RISE-P",
   "cli_smoke": "PASS: bounded train and measured-only reload prediction",
