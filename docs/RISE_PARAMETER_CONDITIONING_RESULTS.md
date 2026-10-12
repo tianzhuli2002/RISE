@@ -74,10 +74,18 @@ continuation. A single tenfold Adam learning-rate reduction improves local
 likelihood surfaces, but leaves one training-grid normalization failure
 (`E_p0[rhat]=0.9491 +/- 0.0118` at `theta=(-0.8,0.8)`). A fixed 128-minibatch
 diagnostic finds theta/class counts balanced on average but mean-gradient to
-gradient-noise norm ratio `0.0648`. The final failure class is
-`STOCHASTIC_OPTIMIZATION`; residual branch dominance is not supported. See
+gradient-noise norm ratio `0.0648` at batch 512. The specified warm-start
+follow-up at LR `0.0002`, direct batch 2,048 and 16k updates passed at 4k but
+failed the unchanged normalization gate at 8k and 16k. Its final failure is at
+training theta `(0.8,0.0)`, with `E_p0[rhat]=1.04424` and combined MC standard
+error `0.01335`; held-out ratio and likelihood gates pass. At the same
+deterministic starting state, the batch-2,048 mean-gradient/noise-norm ratio
+is `0.08056`, versus `0.06475` at batch 512. This modest increase did not
+qualify R0. The final failure class remains `STOCHASTIC_OPTIMIZATION`; residual
+branch dominance is not supported. No cold-start or R1 run followed because
+the warm-start failed. See
 [`RISE_R0_NEURAL_DIAGNOSIS.md`](RISE_R0_NEURAL_DIAGNOSIS.md) for the exact
-metrics, machine-readable decision, and single next experiment.
+metrics and machine-readable decision.
 
 R1, detector-level RISE, the interference toy, and real 2HDM training remain
 gated.

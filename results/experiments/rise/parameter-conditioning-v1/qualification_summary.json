@@ -254,8 +254,31 @@
   "R1_reason": "Neither R0 head passes the predeclared event-level and normalization qualification.",
   "R1_exact_definition": "configs/experiments/rise_parameter_conditioning/r1.json",
   "RISE_physics_readiness": "RISE_NOT_READY_FOR_DETECTOR_LEVEL_PHYSICS",
-  "next_action": "Run one exact Gaussian bilinear/quadratic-basis optimization control through the unchanged parameterized unsigned objective to isolate the remaining error.",
+  "next_action": "R0 remains blocked: the effective batch 2048 warm-start failed the unchanged qualification. Do not start cold-start R0, R1, or detector-level RISE.",
   "new_architectures_tested": 1,
   "detector_level_jobs": 0,
-  "real_2HDM_training": false
+  "real_2HDM_training": false,
+  "R0_effective_batch_2048_followup": {
+    "result": "FAIL_UNCHANGED_R0_QUALIFICATION",
+    "training_performed": true,
+    "steps": 16000,
+    "learning_rate": 0.0002,
+    "batch_size": 2048,
+    "qualification_pass_by_step": {
+      "4000": true,
+      "8000": false,
+      "16000": false
+    },
+    "step_16000_failed_theta": [
+      0.8,
+      0.0
+    ],
+    "step_16000_E_p0_rhat": 1.0442414853012716,
+    "step_16000_combined_MC_SE": 0.013348374976847096,
+    "mean_to_noise_norm_ratio_batch512": 0.0647532120347023,
+    "mean_to_noise_norm_ratio_batch2048": 0.08055640012025833,
+    "result_path": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4_batch2048/comparison.json"
+  },
+  "RISE_READY_FOR_DETECTOR_LEVEL_DATASET": "NO",
+  "cold_start_R0_executed": false
 }

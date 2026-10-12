@@ -27,6 +27,7 @@ OUTPUT = ROOT / "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/war
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--learning-rate", type=float, default=None)
+    parser.add_argument("--batch-size", type=int, default=None)
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
     config = json.loads(CONFIG_PATH.read_text())
@@ -61,13 +62,25 @@ def main() -> None:
     learning_rate = float(config["learning_rate"] if args.learning_rate is None else args.learning_rate)
     if learning_rate <= 0:
         parser.error("learning rate must be positive")
+    batch_size = int(config["batch_size"] if args.batch_size is None else args.batch_size)
+    if batch_size <= 0 or batch_size > len(reference):
+        parser.error(f"batch size must be in [1, {len(reference)}]")
     optimizer = torch.optim.Adam(head.parameters(), lr=learning_rate)
     rng = np.random.default_rng(seed + 3)
     checkpoints = set(map(int, config["checkpoints"]))
     history, results = [], {}
     start = time.perf_counter()
+    resolved_config = {
+        **config,
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "gradient_accumulation_steps": 1,
+        "initialization": str(DETERMINISTIC.relative_to(ROOT)),
+        "objective": "maintained ReweightedRatioBatch and unsigned_loss, unchanged",
+    }
+    write_json(output / "config.json", resolved_config)
     for step in range(1, max(checkpoints) + 1):
-        rows = rng.choice(len(reference), size=int(config["batch_size"]), replace=False)
+        rows = rng.choice(len(reference), size=batch_size, replace=False)
         batch = adapter(
             {
                 "tokens": torch.ones((len(rows), 1)),
@@ -98,6 +111,8 @@ def main() -> None:
                     "step": step,
                     "initialization": str(DETERMINISTIC.relative_to(ROOT)),
                     "optimizer": "Adam minibatch; maintained ReweightedRatioBatch and unsigned_loss unchanged",
+                    "batch_size": batch_size,
+                    "gradient_accumulation_steps": 1,
                     "parameter_count": sum(parameter.numel() for parameter in head.parameters()),
                     "wall_seconds": time.perf_counter() - start,
                 }
@@ -121,6 +136,8 @@ def main() -> None:
             "data_sidecar": str(Path(config["training_sidecar"])),
             "initialization": str(DETERMINISTIC.relative_to(ROOT)),
             "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "gradient_accumulation_steps": 1,
             "results": results,
             "training_history": history,
         },

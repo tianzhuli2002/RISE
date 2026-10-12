@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -22,7 +23,26 @@ OUTPUT = ROOT / "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/min
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--batch-size", type=int, default=None)
+    parser.add_argument("--checkpoint", type=Path, default=INITIAL_STATE)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--learning-rate", type=float, default=None)
+    args = parser.parse_args()
     config = json.loads(CONFIG_PATH.read_text())
+    batch_size = int(config["batch_size"] if args.batch_size is None else args.batch_size)
+    if batch_size <= 0 or batch_size > int(config["training_reference_events"]):
+        parser.error("batch size must be positive and no larger than the reference population")
+    checkpoint = args.checkpoint.resolve()
+    output = args.output.resolve()
+    if not checkpoint.is_file():
+        raise FileNotFoundError(f"R0 gradient diagnostic checkpoint is missing: {checkpoint}")
+    try:
+        checkpoint_relative = str(checkpoint.relative_to(ROOT))
+    except ValueError as exc:
+        raise ValueError(f"Checkpoint must be inside the RISE repository: {checkpoint}") from exc
+    if output.exists():
+        raise FileExistsError(f"Refusing to overwrite gradient diagnostic: {output}")
     torch.set_num_threads(1)
     sidecar = SBISidecar(ROOT / config["training_sidecar"])
     rng_data = np.random.default_rng(int(config["seed"]))
@@ -34,14 +54,14 @@ def main() -> None:
     )
     reference_sample(config, sidecar)
     head = ReferenceAnchoredBilinearRatioHead(3, 2, int(config["hidden"]), config["reference_theta"])
-    head.load_state_dict(torch.load(INITIAL_STATE, map_location="cpu", weights_only=False))
+    head.load_state_dict(torch.load(checkpoint, map_location="cpu", weights_only=False))
     adapter = ReweightedRatioBatch(
         sidecar, sidecar.event_id, reference_point=4, seed=int(config["seed"]) + 1
     )
     rng = np.random.default_rng(int(config["seed"]) + 9901)
     vectors, rows, losses, theta_counts, class_counts = [], [], [], [], []
     for _ in range(128):
-        selected = rng.choice(len(reference), size=int(config["batch_size"]), replace=False)
+        selected = rng.choice(len(reference), size=batch_size, replace=False)
         batch = adapter(
             {
                 "tokens": torch.ones((len(selected), 1)),
@@ -69,13 +89,13 @@ def main() -> None:
     gradient_mean = gradients.mean(axis=0)
     component_variance = gradients.var(axis=0, ddof=1)
     write_json(
-        OUTPUT,
+        output,
         {
             "status": "completed",
             "training_performed": False,
-            "objective": "maintained reweighted unsigned_loss at the saved passing deterministic bilinear state",
+            "objective": "maintained reweighted unsigned_loss at the saved R0 checkpoint",
             "gradient_batches": len(gradients),
-            "batch_size": int(config["batch_size"]),
+            "batch_size": batch_size,
             "loss_mean": float(np.mean(losses)),
             "loss_std": float(np.std(losses, ddof=1)),
             "gradient_norm_mean": float(np.mean(rows)),
@@ -90,11 +110,13 @@ def main() -> None:
             "positive_class_count_sd": float(np.stack(class_counts)[:, 1].std(ddof=1)),
             "reference_class_count_mean": float(np.stack(class_counts)[:, 0].mean()),
             "reference_class_count_sd": float(np.stack(class_counts)[:, 0].std(ddof=1)),
-            "learning_rate_used_by_failed_warmstart": float(config["learning_rate"]),
-            "checkpoint": str(INITIAL_STATE.relative_to(ROOT)),
+            "learning_rate_used_by_failed_warmstart": float(
+                config["learning_rate"] if args.learning_rate is None else args.learning_rate
+            ),
+            "checkpoint": checkpoint_relative,
         },
     )
-    print(OUTPUT.read_text(), flush=True)
+    print(output.read_text(), flush=True)
 
 
 if __name__ == "__main__":

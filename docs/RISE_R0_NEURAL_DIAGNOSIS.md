@@ -30,6 +30,7 @@ also shows that representation alone does not guarantee useful generalization.
 | Existing head, stochastic 4k | 0.36545 | 0.9865, 0.9654, 0.9868 | 42.39 | 27.91 / 8.16 | 0.202 | 0/8 |
 | Existing head, stochastic 16k | 0.21436 | 0.9406, 0.9958, 0.8492 | 24.56 | 11.93 / 17.38 | 0.099 | 0/8 |
 | Bilinear, stochastic 16k | 0.09011 | 0.9868, 1.0059, 0.9796 | 8.81 | 2.00 / 5.45 | 0.035 | 5/8 |
+| Bilinear, warm-start direct batch 2,048 / 16k | 0.02349 | 1.0058, 1.0033, 1.0209 | 3.76 | 3.34 / 1.29 | 0.025 | 7/8 |
 | Bilinear, zero-residual start, stochastic 16k | 0.08788 | 0.9862, 1.0060, 0.9826 | 9.14 | 2.17 / 5.96 | 0.048 | 5/8 |
 | Bilinear explicit-only, stochastic 16k | 0.07918 | 0.9759, 1.0037, 0.9821 | 8.93 | 5.40 / 8.11 | 0.081 | 2/8 |
 | Bilinear, exact-risk theta/class-balanced stochastic 16k | 0.17415 | 1.0173, 1.0177, 0.9798 | 7.09 | 4.21 / 3.18 | 0.046 | 5/8 |
@@ -98,17 +99,31 @@ Monte Carlo standard errors below one. Held-out normalization passes at
 These results support stochastic-optimization sensitivity rather than a
 missing x-theta interaction or residual-branch interference. The residual
 branch is not dominant, and theta/class counts are balanced on average. R0
-remains blocked because one training-grid normalization point fails.
+remains blocked because training-grid normalization fails at some checkpoints.
+
+The specified low-noise warm-start was run from the passing deterministic
+bilinear state at LR `0.0002` with a direct batch of 2,048; this small head did
+not require gradient accumulation. The unchanged qualification passes at 4k,
+then fails at 8k and 16k. At 16k, the only failed gate is training-grid
+normalization at `(0.8,0.0)`: `E_p0[rhat]=1.04424 +/- 0.01335`, 3.31 combined
+Monte Carlo standard errors from one. All held-out normalization and event
+ratio checks pass, and the likelihood confidence-region checks pass. The
+result does not qualify R0.
+
+At the same deterministic starting checkpoint, increasing the gradient batch
+from 512 to 2,048 changes the measured mean-gradient/noise-norm ratio from
+`0.06475` to `0.08056` (128 batches each), a 1.24-fold increase. At the final
+16k checkpoint the ratio is `0.08855`. This is a modest reduction in gradient
+noise; it did not prevent the normalization gate from failing. The measured
+final-checkpoint result and same-initial-state comparison are saved separately.
 
 ## Readiness and next action
 
 `RISE_NEURAL_R0 = FAIL`. R1, the detector-level interference toy and real
 2HDM training were not run. RISE is **not ready for detector-level or signed
-interference physics**. The single next action is four-batch gradient
-accumulation (effective batch 2,048) from the passing deterministic bilinear
-checkpoint at LR `0.0002`, with the same sampler and unsigned objective. The
-measured gradient noise motivates this one correction; qualification gates
-remain unchanged.
+interference physics**. The batch-2,048 warm-start failed the unchanged gate,
+so no cold-start R0 run is permitted by this qualification sequence. Do not
+start R1 or detector-level training while R0 remains blocked.
 
 The full result record is
 `results/experiments/rise/parameter-conditioning-v1/R0/decision.json`.
@@ -122,5 +137,10 @@ Branch scales and gradients are in
 `results/experiments/rise/parameter-conditioning-v1/R0/bilinear/branch_diagnostics.json`;
 the minibatch-gradient measurement is in
 `results/experiments/rise/r0-neural-diagnosis-v1/complete-02/minibatch_gradient_noise.json`.
+The batch-2,048 warm-start is in
+`results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4_batch2048/`;
+same-initial-state and final-state batch-2,048 gradient diagnostics are in
+`initial_state_gradient_noise_batch2048.json` and
+`effective_batch2048_gradient_noise.json` in that `complete-02` directory.
 The branch figure is
 `results/experiments/rise/parameter-conditioning-v1/R0-qualification/RISE_R0_branch_diagnostics.png`.

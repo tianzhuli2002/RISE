@@ -176,7 +176,7 @@
     "objective_definition_unchanged": true,
     "stratified_sampling_estimator_unbiased_for_uniform_theta_equal_class_risk": true
   },
-  "single_next_action": "Add four-batch gradient accumulation (effective batch 2048) to one warm-started R0 run at Adam LR 2e-4, keeping the same head, rows, theta/class sampler, sidecar and unsigned loss; require the existing qualification unchanged.",
+  "single_next_action": "Keep R0 blocked. The specified batch-2048 warm-start failed the unchanged gate; do not start a cold-start, R1, detector-level run, or optimizer sweep within this bounded qualification.",
   "R1_run": false,
   "detector_level_or_2HDM_run": false,
   "followup_diagnostics": {
@@ -184,6 +184,65 @@
     "minibatch_gradient_noise": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/minibatch_gradient_noise.json",
     "standard_rate_warmstart": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic/comparison.json",
     "reduced_rate_warmstart": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4/comparison.json",
-    "finding": "A passing full-batch bilinear state loses R0 qualification under the unchanged minibatch sampler/objective. Lowering Adam LR tenfold substantially improves local likelihood surfaces, but one training-grid normalization point remains 4.3 combined MC standard errors low: E_p0[rhat]=0.9491 at theta=(-0.8,0.8). Theta/class counts are balanced on average; 128-batch mean-to-noise gradient norm ratio is 0.0648."
-  }
+    "finding": "The LR 2e-4 warm-start at batch 2048 passes at 4k, fails at 8k, and fails the unchanged normalization gate at 16k. At 16k only training-grid normalization at theta=(0.8,0.0) fails (E_p0[rhat]=1.04424, combined MC SE=0.01335); held-out ratio and likelihood gates pass. At the deterministic start, the 128-batch gradient mean/noise ratio rises from 0.06475 at batch 512 to 0.08056 at batch 2048; this modest gain does not qualify R0.",
+    "batch2048_warmstart": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4_batch2048/comparison.json",
+    "batch2048_initial_state_gradient_noise": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/initial_state_gradient_noise_batch2048.json",
+    "batch2048_final_state_gradient_noise": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/effective_batch2048_gradient_noise.json"
+  },
+  "effective_batch_2048_warmstart": {
+    "status": "completed",
+    "result": "FAIL_UNCHANGED_R0_QUALIFICATION",
+    "steps": 16000,
+    "learning_rate": 0.0002,
+    "batch_size": 2048,
+    "gradient_accumulation_steps": 1,
+    "implementation_note": "A direct 2048-example batch fit the analytic head; gradient accumulation was unnecessary.",
+    "initialization": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/deterministic_seed_20261403.pt",
+    "result_path": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/warmstart_stochastic_lr_2e-4_batch2048/comparison.json",
+    "checkpoint_results": {
+      "4000": true,
+      "8000": false,
+      "16000": false
+    },
+    "step_8000_failed_training_normalizations": [
+      {
+        "theta": [
+          -0.8,
+          0.0
+        ],
+        "E_p0_rhat": 0.954147809138335,
+        "combined_MC_SE": 0.012136029415117126
+      },
+      {
+        "theta": [
+          -0.8,
+          0.8
+        ],
+        "E_p0_rhat": 0.9539771723886907,
+        "combined_MC_SE": 0.012232220111727457
+      }
+    ],
+    "step_16000_failed_training_normalization": {
+      "theta": [
+        0.8,
+        0.0
+      ],
+      "E_p0_rhat": 1.0442414853012716,
+      "combined_MC_SE": 0.013348374976847096,
+      "distance_from_unity_combined_SE": 3.3143723770128526
+    },
+    "all_heldout_ratio_checks_pass_at_16000": true,
+    "likelihood_confidence_region_checks_pass_at_16000": true
+  },
+  "batch_2048_gradient_noise": {
+    "batch_512_same_initial_checkpoint_ratio": 0.0647532120347023,
+    "batch_2048_same_initial_checkpoint_ratio": 0.08055640012025833,
+    "same_initial_checkpoint_ratio_increase_factor": 1.2440525742118684,
+    "batch_2048_final_checkpoint_ratio": 0.08854598551988602,
+    "initial_state_diagnostic": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/initial_state_gradient_noise_batch2048.json",
+    "final_state_diagnostic": "results/experiments/rise/r0-neural-diagnosis-v1/complete-02/effective_batch2048_gradient_noise.json",
+    "interpretation": "Gradient noise falls modestly at batch 2048, but the unchanged R0 normalization gate still fails."
+  },
+  "cold_start_R0": "NOT_RUN_WARMSTART_FAILED",
+  "RISE_READY_FOR_DETECTOR_LEVEL_DATASET": false
 }
